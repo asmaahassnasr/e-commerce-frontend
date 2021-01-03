@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import Layout from '../Core/Layout'
-import {API} from '../config'
-import {Link} from 'react-router-dom'
+import Layout from '../Core/Layout';
+import {Link} from 'react-router-dom';
+import {signup} from '../auth/index';
 
 // put values of submit form in the state , when submit go to backend
 
@@ -46,24 +46,7 @@ const Signup = () => {
         })
     } 
 
-    const signup =(user) =>{
 
-        // Send Data to backend as json using fetch
-        return fetch(`${API}/signup`,{ 
-            method:"POST",
-            headers:{
-                Accept:'application/json',
-                "content-type":"application/json"
-            },
-            body:JSON.stringify(user)
-        })
-        .then(response => {
-            return response.json()
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    };
 
     const signUpForm = () => (
         <form>

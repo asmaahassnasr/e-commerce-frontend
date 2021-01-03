@@ -15,6 +15,7 @@ const Menue = ({history}) => {
     return (
         <div>
             <ul className="nav nav-tabs bg-primary">
+
                 <li className="nav-item">
                     <Link className="nav-link" style={isActive(history,'/')} to="/">Home</Link>
                 </li>
@@ -32,10 +33,8 @@ const Menue = ({history}) => {
 
                 {isAuthenticated() && (
                     <>
-                    <li className="nav-item">
-                        <span className="nav-link" style={{color:"#fff", cursor:'pointer'}} >
-                            Welcome 
-                        </span>
+                     <li className="nav-item">
+                    <Link className="nav-link" style={isActive(history,'/')} to="/dashboard">DashBoard</Link>
                     </li>
                     <li className="nav-item">
                         <span className="nav-link" 

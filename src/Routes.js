@@ -1,8 +1,11 @@
 import React from 'react'
 import {BrowserRouter,Switch,Route} from 'react-router-dom'
-import Signup from './User/Signup'
-import Signin from './User/Signin'
-import Home from './Core/Home'
+import Signup from './User/Signup';
+import Signin from './User/Signin';
+import Home from './Core/Home';
+import PrivateRoutes from './auth/privateRoute';
+import UserDashBoard from './User/UserDashBoard';
+
 const Routes = () =>{
     return (
         <BrowserRouter>
@@ -10,6 +13,7 @@ const Routes = () =>{
                 <Route exact path="/" component={Home} />
                 <Route path="/signin" component={Signin}/>
                 <Route path="/signup" component={Signup}/>
+                <PrivateRoutes exact path="/dashboard" component={UserDashBoard} />
             </Switch>
         </BrowserRouter>
     )

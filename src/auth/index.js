@@ -63,3 +63,17 @@ export const signOut = (next) => {
         })
     }
 }
+
+//conditionally Show SignIn , SignOut
+//Check if user is authenticated or not
+export const isAuthenticated = () =>{
+    if(typeof window == 'undefined'){
+        return false;
+    }
+    if(localStorage.getItem('jwt')){
+        return JSON.parse(localStorage.getItem('jwt'));
+    }
+    else{
+        return false;
+    }
+}

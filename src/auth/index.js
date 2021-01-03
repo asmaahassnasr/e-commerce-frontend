@@ -38,3 +38,11 @@ export const signin =(user) =>{
         console.log(error)
     })
 };
+
+//Saving data to local storage
+export const authenticate = (data,next) => {
+    if(typeof window !== 'undefined'){
+        localStorage.setItem('jwt',JSON.stringify(data))
+        next();
+    }
+}

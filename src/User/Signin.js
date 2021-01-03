@@ -1,13 +1,13 @@
 import React ,{useState} from "react";
 import Layout from '../Core/Layout';
 import {Redirect} from 'react-router-dom';
-import {signin} from '../auth/index';
+import {signin,authenticate} from '../auth/index';
 
 const Signin = () => {
   
     const[values,setValues] = useState({
-        email:'',
-        password:'',
+        email:'admin@gmail.com',
+        password:'1234abcd',
         error:'',
         loading:false,
         redirecToRefrrer:false
@@ -32,11 +32,14 @@ const Signin = () => {
                 setValues({...values, error:data.error,loading:false})
             }
             else{
-                setValues({
-                    ...values,
-                    redirecToRefrrer:true
-                });
-            }
+                
+                authenticate(data, () => {
+                        setValues({
+                                    ...values,
+                                    redirecToRefrrer:true
+                                });
+                })
+             }
         })
     } 
 
@@ -96,9 +99,6 @@ const Signin = () => {
                 {showError()}
                {signInForm()}
                 {redirectUser()}
-               {/* To view live changes  */}
-               {/* {JSON.stringify(values)} */}
-
             </Layout>
     )
 }

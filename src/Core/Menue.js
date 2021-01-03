@@ -12,6 +12,7 @@ const isActive = (history,path) => {
 }
 
 const Menue = ({history}) => {
+    
     return (
         <div>
             <ul className="nav nav-tabs bg-primary">

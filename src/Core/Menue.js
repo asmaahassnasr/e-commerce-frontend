@@ -32,10 +32,27 @@ const Menue = ({history}) => {
                   </>
                 )}
 
-                {isAuthenticated() && (
+                {isAuthenticated() && isAuthenticated().user.role===0 &&(
                     <>
                      <li className="nav-item">
                     <Link className="nav-link" style={isActive(history,'/')} to="/user/dashboard">DashBoard</Link>
+                    </li>
+                    <li className="nav-item">
+                        <span className="nav-link" 
+                           style={{color:"#fff", cursor:'pointer'}}
+                           onClick={() => signOut( () => {
+                               history.push("/")
+                           })}>
+                            Sign out
+                        </span>
+                    </li>
+                    </>
+                )}
+
+            {isAuthenticated() && isAuthenticated().user.role===1 &&(
+                    <>
+                     <li className="nav-item">
+                    <Link className="nav-link" style={isActive(history,'/')} to="/admin/dashboard">DashBoard</Link>
                     </li>
                     <li className="nav-item">
                         <span className="nav-link" 

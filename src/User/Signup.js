@@ -15,9 +15,36 @@ const Signup = () => {
         success:false
     });
 
+    const {name,email,password} = values;
+
     const handleChanges = (name) => (event) => {
         setValues({...values,error:false,[name]:event.target.value});
     }
+
+    const clickSubmit= (event) =>{
+        event.preventDefault()
+        signup({name,email,password})
+    } 
+
+    const signup =(user) =>{
+        // console.log(user);
+        // Send Data to backend as json using fetch
+        fetch(`${API}/signup`,{ 
+            method:"POST",
+            headers:{
+                Accept:'application/json',
+                "content-type":"application/json"
+            },
+            body:JSON.stringify(user)
+        })
+        .then(response => {
+            return response.json()
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    };
+
     const signUpForm = () => (
         <form>
             <div className="form-group">
@@ -32,7 +59,7 @@ const Signup = () => {
                 <label className="text-muted">Password</label>
                 <input type="password" className="form-control"  onChange={handleChanges('password')} />
             </div>
-            <button className="btn btn-primary"> Submit </button>
+            <button onClick={clickSubmit} className="btn btn-primary"> Submit </button>
         </form>
     )
 
@@ -43,8 +70,10 @@ const Signup = () => {
             className="container col-md-8 offset-md-2"
             >
                {signUpForm()}
+
                {/* To view live changes  */}
                {/* {JSON.stringify(values)} */}
+
             </Layout>
     )
 }

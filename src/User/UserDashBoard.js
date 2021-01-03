@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../Core/Layout';
 import {isAuthenticated} from '../auth/index';
-import { Link } from 'react-router-dom';
+import { Link ,Redirect } from 'react-router-dom';
 
 const UserDashBoard = () => {
 
@@ -46,12 +46,19 @@ const UserDashBoard = () => {
        </div>
         )
     }
+
+    const redirectUser = () => {
+        if(isAuthenticated().user.role===1) {
+            return <Redirect to="/admin/dashboard"/>
+        }
+    }
     return (
         <Layout 
         title="User Dashboard"
         className="container"
         description={`G'day ${name}`}
         >
+            {redirectUser()}
             <div className="row">
                 <div className="col-3">
                     {userLinks()}

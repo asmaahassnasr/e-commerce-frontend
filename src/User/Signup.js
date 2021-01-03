@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Layout from '../Core/Layout';
-import {Link} from 'react-router-dom';
-import {signup} from '../auth/index';
+import {Link,Redirect} from 'react-router-dom';
+import {signup,isAuthenticated} from '../auth/index';
 
 // put values of submit form in the state , when submit go to backend
 
@@ -94,12 +94,19 @@ const Signup = () => {
         </div>
     )
 
+    const redirectUser = () => {
+        if(isAuthenticated()) {
+            return <Redirect to="/"/>
+        }
+    }
+
     return (
             <Layout 
             title=' SignUp Page' 
             description="SignUp for our App"
             className="container col-md-8 offset-md-2"
             >
+                {redirectUser()}
                 {showSuccess()}
                 {showError()}
                {signUpForm()}

@@ -34,7 +34,7 @@ const Menue = ({history}) => {
                 {isAuthenticated() && (
                     <>
                      <li className="nav-item">
-                    <Link className="nav-link" style={isActive(history,'/')} to="/dashboard">DashBoard</Link>
+                    <Link className="nav-link" style={isActive(history,'/')} to="/user/dashboard">DashBoard</Link>
                     </li>
                     <li className="nav-item">
                         <span className="nav-link" 

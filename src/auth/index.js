@@ -46,3 +46,20 @@ export const authenticate = (data,next) => {
         next();
     }
 }
+
+export const signOut = (next) => {
+    //Remove Token and user , request to backend , redirect user
+    if(typeof window !== 'undefined'){
+        localStorage.removeItem('jwt')
+        next();
+        return fetch(`${API}/signout`,{
+            method:'GET'
+        })
+        .then(respon => {
+            console.log("signout",respon)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+}

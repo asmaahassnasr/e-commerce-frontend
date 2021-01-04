@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from '../Core/Layout';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth/index';
-import { createProduct } from './apiAdmin';
+import { createProduct ,getCategories} from './apiAdmin';
 
 const AddProduct = () => {
 
@@ -40,8 +40,20 @@ const AddProduct = () => {
 
     const { user, token } = isAuthenticated();
 
+    // Load Categories and Set Form Data 
+    const init = () =>{
+        getCategories().then(data => {
+            if(data.error){
+                setValues({...values,error:data.error})
+            }
+            else{
+                setValues({...values,categories:data,formData: new FormData()})
+            }
+        });
+    }
+
     useEffect(() => {
-        setValues({ ...values, formData: new FormData() })
+        init();
     }, [])
 
 
@@ -111,8 +123,10 @@ const AddProduct = () => {
             <div className="form-group">
                 <label className="text-muted"> Category </label>
                 <select className="form-control" onChange={handleChange('category')}>
-                    <option value="5ff31f69dd7a0a2bac500cbd"> Node3 </option>
-                    <option value="5ff31f69dd7a0a2bac500cbd"> Node3 </option>
+                    <option> ... Please Select ...</option>
+                    {categories && categories.map ( (c,i) => (
+                        <option key={i} value={c._id}>{c.name}</option>
+                    ))}
                 </select>
             </div>
             <div className="form-group">
@@ -123,6 +137,7 @@ const AddProduct = () => {
             <div className="form-group">
                 <label className="text-muted"> Shipping </label>
                 <select className="form-control" onChange={handleChange('shipping')}>
+                    <option > ... Please Select ... </option>
                     <option value="0"> No </option>
                     <option value="1"> Yes </option>
                 </select>

@@ -2,6 +2,7 @@ import React ,{useState} from "react";
 import Layout from '../Core/Layout';
 import {Link} from 'react-router-dom';
 import {isAuthenticated} from '../auth/index';
+import {createCategory} from './apiAdmin';
 
 const AddCategory = () => {
     const [name,setName] = useState('');
@@ -24,12 +25,22 @@ const AddCategory = () => {
         setError('');
         setSuccess(false);
         // Make Request to API to create Category 
+        createCategory(user._id,token,{name})
+        .then( data => {
+            if(data.error){
+                setError(true);
+            }
+            else{
+                setError('');
+                setSuccess(true);
+            }
+        });
     }
     const newCategoryForm = () => (
         <form onSubmit={clickSubmin}> 
             <div className="form-group">
                 <label className="text-muted"> Name </label>
-                <input type="text" className="form-control" 
+                <input type="text" className="form-control"  required
                 onChange={handleChange}  value={name} autoFocus/>
                 </div>
                 <div >
@@ -38,14 +49,37 @@ const AddCategory = () => {
         </form>
     )
 
+    const showSuccess =() =>{
+        if(success) {
+              return <h3 className="text-success">{name} is Created </h3>  
+        }
+    }
+
+    const showError=() =>{
+        if(error) {
+              return <h3 className="text-danger">Category Name Should be unique </h3>  
+        }
+    }
+
+    const goBack=() =>{
+        return (
+            <div className="mt-5">
+                <Link to="/admin/dashboard" className="text-warning"> Back To Dashboard</Link>
+            </div>
+        )
+    }
+
     return (
         <Layout 
             title=' Create Category Page' 
-            description= {`Hello ${name} , ready to create new category ?`}
+            description= {`Hello ${user.name} , ready to create new category ?`}
             >
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
+                        {showSuccess()}
+                        {showError()}
                         {newCategoryForm()}
+                        {goBack()}
                     </div>
                 </div>
             </Layout>

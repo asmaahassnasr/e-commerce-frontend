@@ -71,7 +71,7 @@ const AddCategory = () => {
 
     return (
         <Layout 
-            title=' Create Category Page' 
+            title=' Create Category Page' className="container"
             description= {`Hello ${user.name} , ready to create new category ?`}
             >
                 <div className="row">

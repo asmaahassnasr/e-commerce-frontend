@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from '../Core/Layout';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth/index';
-import { createProduct ,getCategories} from './apiAdmin';
+import { createProduct, getCategories } from './apiAdmin';
 
 const AddProduct = () => {
 
@@ -17,7 +17,7 @@ const AddProduct = () => {
         photo: '',
         loading: false,
         error: '',
-        createdProduct: '',
+        createdProduct: false,
         redirectToProfile: false,
         formData: ''
     })
@@ -41,13 +41,13 @@ const AddProduct = () => {
     const { user, token } = isAuthenticated();
 
     // Load Categories and Set Form Data 
-    const init = () =>{
+    const init = () => {
         getCategories().then(data => {
-            if(data.error){
-                setValues({...values,error:data.error})
+            if (data.error) {
+                setValues({ ...values, error: data.error, createdProduct: false })
             }
-            else{
-                setValues({...values,categories:data,formData: new FormData()})
+            else {
+                setValues({ ...values, categories: data, formData: new FormData() })
             }
         });
     }
@@ -72,12 +72,13 @@ const AddProduct = () => {
     }
 
     const clickSubmit = event => {
+
         event.preventDefault();
-        setValues({ ...values, error: '', loading: true });
+        setValues({ ...values, error: false, loading: true, createdProduct: false });
         createProduct(user._id, token, formData)
             .then(data => {
                 if (data.error) {
-                    setValues({ ...values, error: data.error })
+                    setValues({ ...values, error: data.error, createdProduct: false })
                 }
                 else {
                     setValues({
@@ -124,7 +125,7 @@ const AddProduct = () => {
                 <label className="text-muted"> Category </label>
                 <select className="form-control" onChange={handleChange('category')}>
                     <option> ... Please Select ...</option>
-                    {categories && categories.map ( (c,i) => (
+                    {categories && categories.map((c, i) => (
                         <option key={i} value={c._id}>{c.name}</option>
                     ))}
                 </select>
@@ -148,6 +149,29 @@ const AddProduct = () => {
         </form>
     )
 
+    const showError = () => (
+
+        <div className="alert alert-danger"
+            style={{ display: error ? '' : 'none' }}>
+            {error}
+        </div>
+
+    )
+    const showSuccess = () => (
+
+        <div className="alert alert-info"
+            style={{ display: createdProduct ? '' : 'none' }}>
+            <h2> {`${createdProduct}`} created successfully</h2>
+        </div>
+
+    )
+    const showLading = () => (
+        loading && (
+            <div className="alert alert-success">
+                <h2> Loading ...</h2>
+            </div>
+        )
+    )
     return (
         <Layout
             title=' Add New Product Page' className="container"
@@ -155,6 +179,9 @@ const AddProduct = () => {
         >
             <div className="row">
                 <div className="col-md-8 offset-md-2">
+                    {showLading()}
+                    {showSuccess()}
+                    {showError()}
                     {newPostForm()}
                 </div>
             </div>

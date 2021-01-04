@@ -16,8 +16,8 @@ const AddProduct = () => {
         quantity: '',
         photo: '',
         loading: false,
-        error: '',
-        createdProduct: false,
+        error: "",
+        createdProduct: "",
         redirectToProfile: false,
         formData: ''
     })
@@ -44,7 +44,7 @@ const AddProduct = () => {
     const init = () => {
         getCategories().then(data => {
             if (data.error) {
-                setValues({ ...values, error: data.error, createdProduct: false })
+                setValues({ ...values, error: data.error })
             }
             else {
                 setValues({ ...values, categories: data, formData: new FormData() })
@@ -62,9 +62,7 @@ const AddProduct = () => {
         const value = name === 'photo' ?
             event.target.files[0]
             : event.target.value;
-
         formData.set(name, value);
-
         setValues({ ...values, [name]: value });
 
         //send Data To Backend as form data not json
@@ -72,13 +70,12 @@ const AddProduct = () => {
     }
 
     const clickSubmit = event => {
-
         event.preventDefault();
-        setValues({ ...values, error: false, loading: true, createdProduct: false });
+        setValues({ ...values, error: "", loading: true});
         createProduct(user._id, token, formData)
             .then(data => {
                 if (data.error) {
-                    setValues({ ...values, error: data.error, createdProduct: false })
+                    setValues({ ...values, error: data.error })
                 }
                 else {
                     setValues({
@@ -150,20 +147,16 @@ const AddProduct = () => {
     )
 
     const showError = () => (
-
         <div className="alert alert-danger"
             style={{ display: error ? '' : 'none' }}>
             {error}
         </div>
-
     )
     const showSuccess = () => (
-
         <div className="alert alert-info"
             style={{ display: createdProduct ? '' : 'none' }}>
             <h2> {`${createdProduct}`} created successfully</h2>
         </div>
-
     )
     const showLading = () => (
         loading && (
